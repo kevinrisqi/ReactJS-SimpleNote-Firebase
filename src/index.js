@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './containers/pages/App';
 import * as serviceWorker from './serviceWorker';
+import firebase from './config/firebase';
+
+// Test config firebase
+console.log('config firebase ===>',firebase);
 
 ReactDOM.render(
   <React.StrictMode>
