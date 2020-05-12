@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from '../../../assets/img/logo/logo.svg';
 import './App.css';
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Dashboard from '../Dashboard';
 import Register from './../Register/index';
 import Login from './../Login/index';
@@ -13,17 +13,9 @@ function App() {
     <Provider store={store}>
       <Router>
         <div>
-          <Switch>
-            <Route path="/register">
-              <Register />
-            </Route>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route path="/">
-              <Dashboard />
-            </Route>
-          </Switch>
+            <Route path="/" exact component={Dashboard} />
+            <Route path="/login" exact component={Login} />
+            <Route path="/register" exact component={Register} />
         </div>
       </Router>
     </Provider>
