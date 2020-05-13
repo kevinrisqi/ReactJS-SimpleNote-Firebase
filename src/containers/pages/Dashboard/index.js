@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './Dashboard.scss';
-import {addDataToAPI} from '../../../config/redux/action';
+import {addDataToAPI, getDataFromAPI} from '../../../config/redux/action';
 import { connect } from 'react-redux';
 
 class Dashboard extends Component {
@@ -11,15 +11,23 @@ class Dashboard extends Component {
         date: ''
     }
 
+    componentDidMount() {
+        const {getNotes} = this.props;
+        const userData = JSON.parse(localStorage.getItem('userData'))
+
+        getNotes(userData.uid)
+    }
+
     handleSaveNotes = () => {
         const {title,content} = this.state;
         const {saveNotes} = this.props;
+        const userData = JSON.parse(localStorage.getItem('userData'))
 
         const data = {
             title: title,
             content: content,
             date: new Date().getTime(),
-            userId: this.props.userData.uid
+            userId: userData.uid
         }
         console.log(data)
         saveNotes(data)
@@ -33,6 +41,8 @@ class Dashboard extends Component {
 
     render() {
         const {title,content,date} = this.state;
+        const {notes} = this.props;
+        console.log('notes: ', notes)
         return(
             <div className="container">
                 <div className="input-form">
@@ -54,11 +64,13 @@ class Dashboard extends Component {
 }
 
 const reduxState = (state) => ({
-    userData: state.user
+    userData: state.user,
+    notes: state.notes
 })
 
 const reduxDispatch = (dispatch) => ({
-    saveNotes: (data) => dispatch(addDataToAPI(data))
+    saveNotes: (data) => dispatch(addDataToAPI(data)),
+    getNotes: (data) => dispatch(getDataFromAPI(data))
 })
 
 export default connect(reduxState, reduxDispatch)(Dashboard);
